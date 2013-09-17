@@ -1,0 +1,5 @@
+antlr -gt mycompiler.g  # -gt --> generate tree     
+dlg -ci parser.dlg scan.c
+g++ -o mycompiler mycompiler.c scan.c err.c
+
+rm -rf *.o mycompiler mycompiler.c scan.c err.c
