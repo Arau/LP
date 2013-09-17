@@ -17,8 +17,8 @@ int main() {
 
 //expr: NUM (PLUS NUM)* "@" ;
 //expr: expr PLUS expr | NUM; //  error: infinite left-recursion to rule expr from rule expr
-//expr: NUM PLUS expr | NUM;//  warning: alts 1 and 2 of the rule itself ambiguous upon { NUM }
-//expr: expr PLUS NUM  | NUM;// error: infinite left-recursion to rule expr from rule expr
-//expr: NUM | NUM PLUS expr;//  warning: alts 1 and 2 of the rule itself ambiguous upon { NUM }
+//expr: NUM  PLUS expr | NUM; //  warning: alts 1 and 2 of the rule itself ambiguous upon { NUM }
+//expr: expr PLUS NUM  | NUM; // error: infinite left-recursion to rule expr from rule expr
+//expr: NUM | NUM PLUS expr;  //  warning: alts 1 and 2 of the rule itself ambiguous upon { NUM }
 
 expr: NUM ((PLUS|MINUS) NUM)* "@" ;
