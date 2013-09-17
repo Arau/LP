@@ -1,0 +1,3 @@
+antlr mycompiler.g  #or antlr -gs mycompiler.g -> no optimization, so more readable
+dlg parser.dlg scan.c
+gcc -o mycompiler mycompiler.c scan.c err.c
