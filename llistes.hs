@@ -15,3 +15,13 @@ my_sum (x:xs)   = x + my_sum xs
 
 my_count []     = 0
 my_count (x:xs) = 1 + my_count(xs)
+
+
+my_avg2 []  = 0
+my_avg2 [x] = x
+my_avg2 l   = aux_avg2 0 0 l
+
+aux_avg2 n  added     []    | n >  0    = added `div` n
+aux_avg2 n  value   (x:xs)  | n >= 0    = aux_avg2 count added xs
+    where   count = n + 1
+            added = x + value
