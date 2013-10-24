@@ -112,40 +112,9 @@ void ASTPrint(AST *a)
     a=a->right;
   }
 }
-/*
-list
-  \__=
-  |   \__L
-  |   \__[
-  \__=
-  |   \__L2
-  |   \__[
-  |       \__1
-  |       \__2
-  |       \__3
-  \__=
-  |   \__L3
-  |   \__#
-  |       \__L1
-  |       \__L2
-  \__=
-  |   \__L4
-  |   \__[
-  |       \__[
-  |       |   \__[
-  |       |   |   \__1
-  |       |   |   \__2
-  |       |   \__3
-  |       \__4
-  \__=
-  |   \__L5
-  |   \__lreduce
-  |             \__+
-  |             \__L4
 
-*/
-
-
+/* Aggregate sum for each level of tree
+   and evaluate the following levels */
 int sum_list(AST *a) {
   int sum = 0;
   if (a->kind == "[") {
@@ -219,7 +188,7 @@ int main() {
 lists:          (list_oper)* "@"! <<#0=createASTlist(_sibling);>> ;
 list_oper:      ID ASIG^ (list|func|concat) | PRINT^ ID;
 list:           (LBRACKET^ (recurse (list_expr)*|) RBRACKET!);
-list_expr:      (COMA! NUM);
+list_expr:      (COMA! (NUM|list));
 recurse:        (NUM|list);
 func:           (LMAP^ exprbin | LREDUCE^ op ID | LFILTER^ exprbool ID);
 exprbin:        op NUM ID;
