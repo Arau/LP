@@ -112,13 +112,84 @@ void ASTPrint(AST *a)
     a=a->right;
   }
 }
+/*
+list
+  \__=
+  |   \__L
+  |   \__[
+  \__=
+  |   \__L2
+  |   \__[
+  |       \__1
+  |       \__2
+  |       \__3
+  \__=
+  |   \__L3
+  |   \__#
+  |       \__L1
+  |       \__L2
+  \__=
+  |   \__L4
+  |   \__[
+  |       \__[
+  |       |   \__[
+  |       |   |   \__1
+  |       |   |   \__2
+  |       |   \__3
+  |       \__4
+  \__=
+  |   \__L5
+  |   \__lreduce
+  |             \__+
+  |             \__L4
+
+*/
 
 
+int sum_list(AST *a) {
+  int sum = 0;
+  if (a->kind == "[") {
+    AST* son = child(a,0);
+    while (son != NULL) {
+      if (son->kind == "[") 
+        sum += sum_list(son);
+      else
+        sum += atoi(son->kind.c_str());
+      son = son->right;
+    }
+  } 
+  else if (a->kind == "#")
+    sum += sum_list(child(a,0) + sum_list(child(a,1)));
+
+  return sum;
+}
+
+int reduce(AST *a) {
+  if (a == NULL) return 0;
+  else if (child(a,0)->kind == "+") {
+    AST* node_id = findASTListDef(child(a,1)->kind);
+    return sum_list(child(node_id,1));
+  }
+}
+
+void run(AST *a) {
+  if (a == NULL) return;
+  else if (a->kind == "list")
+    return run(child(a,0));
+  else if (a->kind == "=") {
+    if (child(a,1)->kind == "lreduce") {
+      int sum = reduce(child(a,1));
+      cout << "Reduce is: " << sum << endl;
+    }
+  }
+  run(a->right);
+}
 
 int main() {
   root = NULL;
   ANTLR(lists(&root), stdin);
   ASTPrint(root);
+  run(root);
 }
 >>
 
