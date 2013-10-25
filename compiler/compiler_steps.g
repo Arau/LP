@@ -136,12 +136,68 @@ int sum_list(AST *a) {
   return sum;
 }
 
+/* Aggregate decrement for each level of tree
+   and evaluate the following levels */
+int decrement_list(AST *a) {
+  int rest = 0;
+  if (a->kind == "[") {
+    AST* son = child(a,0);
+    while (son != NULL) {
+      if (son->kind == "[") 
+        rest -= decrement_list(son);
+      else
+        rest -= atoi(son->kind.c_str());
+      son = son->right;
+    }
+  } 
+  else if (a->kind == "#") {
+    AST* l1 = findASTListDef(child(a,0)->kind);
+    AST* l2 = findASTListDef(child(a,1)->kind);
+    rest -= decrement_list(child(l1,1)) - decrement_list(child(l2,1));
+  }
+
+  return rest;
+}
+
+/* Aggregate product for each level of tree
+   and evaluate the following levels */
+int prod_list(AST *a) {
+  int prod = 1;
+  if (a->kind == "[") {
+    AST* son = child(a,0);
+    while (son != NULL) {
+      if (son->kind == "[") 
+        prod *= prod_list(son);
+      else
+        prod *= atoi(son->kind.c_str());
+      son = son->right;
+    }
+  } 
+  else if (a->kind == "#") {
+    AST* l1 = findASTListDef(child(a,0)->kind);
+    AST* l2 = findASTListDef(child(a,1)->kind);
+    prod *= prod_list(child(l1,1)) * prod_list(child(l2,1));
+  }
+
+  return prod;
+}
+
 int reduce(AST *a) {
+  AST* node_id;
   if (a == NULL) return 0;
   else if (child(a,0)->kind == "+") {
-    AST* node_id = findASTListDef(child(a,1)->kind);
+    node_id = findASTListDef(child(a,1)->kind);
     return sum_list(child(node_id,1));
   }
+  else if (child(a,0)->kind == "-"){
+    node_id = findASTListDef(child(a,1)->kind);
+    return decrement_list(child(node_id,1));
+  }
+  else if (child(a,0)->kind == "*"){
+    node_id = findASTListDef(child(a,1)->kind);
+    return prod_list(child(node_id,1));
+  }
+
 }
 
 void run(AST *a) {
@@ -150,9 +206,9 @@ void run(AST *a) {
     return run(child(a,0));
   else if (a->kind == "=") {
     if (child(a,1)->kind == "lreduce") {
-      int sum = reduce(child(a,1));
-      cout << "Reduce is: " << sum << endl;
-    }
+      int val = reduce(child(a,1));
+      cout << child(a,0)->kind << " = " << val << endl;
+    }   
   }
   run(a->right);
 }
