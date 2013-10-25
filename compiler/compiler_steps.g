@@ -127,8 +127,11 @@ int sum_list(AST *a) {
       son = son->right;
     }
   } 
-  else if (a->kind == "#")
-    sum += sum_list(child(a,0) + sum_list(child(a,1)));
+  else if (a->kind == "#") {
+    AST* l1 = findASTListDef(child(a,0)->kind);
+    AST* l2 = findASTListDef(child(a,1)->kind);
+    sum += sum_list(child(l1,1)) + sum_list(child(l2,1));
+  }
 
   return sum;
 }
