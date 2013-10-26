@@ -33,3 +33,5 @@ aux_avg2 n  value   (x:xs)  | n >= 0    = aux_avg2 count added xs
 
 flat [] = []
 flat (x:xs) = x ++ flat(xs)
+
+-- T
