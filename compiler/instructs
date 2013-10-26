@@ -1,0 +1,6 @@
+#!/bin/bash
+
+/usr/bin/antlr -gt compiler.g
+dlg -ci parser.dlg scan.c
+g++ -Wno-write-strings -o exe compiler.c scan.c err.c
+
