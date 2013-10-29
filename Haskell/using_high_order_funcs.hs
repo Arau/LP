@@ -8,3 +8,9 @@ equal_lists (x:xs) (y:ys)
     | x /= y    = False
     | otherwise = equal_lists xs ys
 
+
+-- Prod elements of lists
+
+prod_list :: Num a => [a] -> a
+prod_list []     = 0
+prod_list l1     = foldr (*) 1 l1
