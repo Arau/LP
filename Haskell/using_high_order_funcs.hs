@@ -55,7 +55,13 @@ filterfold f1   f2  b   l   = foldr f2 b $ filter f1 l
 
 -- list comprehension
 
--- Map function with list comprehension
+-- Map function with list comprehension (LC)
 
 my_map _  [] = []
 my_map f  l  = [ f x | x <- l ]
+
+-- Filter function with LC
+
+my_filter _ [] = []
+my_filter f l  = [ x | x <- l, f x ]
+
