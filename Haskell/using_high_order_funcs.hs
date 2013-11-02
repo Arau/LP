@@ -73,3 +73,9 @@ divs []  _  = []
 divs _   [] = []
 divs l1  l2 = [ (x,y) | x <- l1, y <- l2, mod y x == 0 ]
 
+
+-- Factors of given number
+
+factors 0 = []
+factors x = [ y | y <- [1..x], mod x y == 0 ]
+
