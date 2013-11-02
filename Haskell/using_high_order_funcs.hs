@@ -79,3 +79,14 @@ divs l1  l2 = [ (x,y) | x <- l1, y <- l2, mod y x == 0 ]
 factors 0 = []
 factors x = [ y | y <- [1..x], mod x y == 0 ]
 
+
+-- Pythagorean theorem possible tuples
+
+pyth 0 = []
+pyth n = [ (a,b,c) |
+            a <- [1..n],
+            b <- [1..n],
+            c <- [1..n],
+            a^2 + b^2 == c^2
+        ]
+
