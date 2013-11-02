@@ -22,3 +22,10 @@ prod_even list = reduce_prod $ filter (even) list
 
 reduce_prod []      = 1
 reduce_prod (x:xs)  = x*reduce_prod xs
+
+
+-- Scalar prod between 2 lists
+
+prod_scalar l1  [] = l1
+prod_scalar []  l2 = l2
+prod_scalar l1 l2 = zipWith (*) l1 l2
