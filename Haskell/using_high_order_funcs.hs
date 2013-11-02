@@ -38,6 +38,10 @@ countIf _   []  = 0
 countIf f   lst = length $ filter f lst
 
 
--- HOF apply ops from list to list of lists
+-- HOF apply ops from list to list
 
-pam l1 l2 = [map f l1 | f <- l2]
+pam  l1 l2 = [map f l1 | f <- l2]
+
+-- HOF apply ops foreach element of list
+
+pam2 l1 l2 = map (\x -> ( [f x | f <- l2] )) l1
