@@ -36,3 +36,8 @@ prod_scalar l1  l2 = zipWith (*) l1 l2
 
 countIf _   []  = 0
 countIf f   lst = length $ filter f lst
+
+
+-- HOF apply ops from list to list of lists
+
+pam l1 l2 = [map f l1 | f <- l2]
