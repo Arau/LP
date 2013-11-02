@@ -28,4 +28,11 @@ reduce_prod (x:xs)  = x*reduce_prod xs
 
 prod_scalar l1  [] = l1
 prod_scalar []  l2 = l2
-prod_scalar l1 l2 = zipWith (*) l1 l2
+prod_scalar l1  l2 = zipWith (*) l1 l2
+
+
+-- High order func which return number of
+-- elems that satisfy a condition
+
+countIf _   []  = 0
+countIf f   lst = length $ filter f lst
