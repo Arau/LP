@@ -18,8 +18,7 @@ prod_list l1     = foldr (*) 1 l1
 
 -- Prod even numbers of list
 
-prod_even []     = 1
-prod_even (x:xs) = reduce_prod $ filter (even) xs
+prod_even list = reduce_prod $ filter (even) list
 
 reduce_prod []      = 1
 reduce_prod (x:xs)  = x*reduce_prod xs
