@@ -65,3 +65,11 @@ my_map f  l  = [ f x | x <- l ]
 my_filter _ [] = []
 my_filter f l  = [ x | x <- l, f x ]
 
+
+-- Divide scalars of lists if is possible
+
+divs []  [] = []
+divs []  _  = []
+divs _   [] = []
+divs l1  l2 = [ (x,y) | x <- l1, y <- l2, mod y x == 0 ]
+
