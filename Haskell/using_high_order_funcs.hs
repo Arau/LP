@@ -51,3 +51,11 @@ pam2 l1 l2 = map (\x -> ( [f x | f <- l2] )) l1
 
 filterfold _    _   b   []  = b
 filterfold f1   f2  b   l   = foldr f2 b $ filter f1 l
+
+
+-- list comprehension
+
+-- Map function with list comprehension
+
+my_map _  [] = []
+my_map f  l  = [ f x | x <- l ]
