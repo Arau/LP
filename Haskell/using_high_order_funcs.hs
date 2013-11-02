@@ -45,3 +45,9 @@ pam  l1 l2 = [map f l1 | f <- l2]
 -- HOF apply ops foreach element of list
 
 pam2 l1 l2 = map (\x -> ( [f x | f <- l2] )) l1
+
+
+-- Filter and reduce elemets of list
+
+filterfold _    _   b   []  = b
+filterfold f1   f2  b   l   = foldr f2 b $ filter f1 l
