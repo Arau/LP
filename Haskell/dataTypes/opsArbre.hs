@@ -14,5 +14,10 @@ obtenirArbre (x:xs) m = if (x==m) then (abuit,xs)
 mostrarArbre Abuit m = [m]
 mostrarArbre (Node x a1 a2) m = x:(mostrarArbre a1 m)++(mostrarArbre a2 m)
 
-prova = (mostrarArbre (fst (obtenirArbre [3,2,0,0,4,5,0,0,0] 0)) 0)
+prova  = (mostrarArbre (fst (obtenirArbre [3,2,0,0,4,5,0,0,0] 0)) 0)
 
+myTree = fst (obtenirArbre [3,2,0,0,4,5,0,0,0] 0)
+
+highTree :: Arbre a -> Int
+highTree Abuit = 0
+highTree tree  = 1 + max (highTree $ fe tree) (highTree $ fd tree)
