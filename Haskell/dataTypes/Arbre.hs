@@ -3,7 +3,7 @@ module Arbre where
 {-- Arbres binaris amb arbres buits --}
 data Arbre a = Node a (Arbre a) (Arbre a)
              | Abuit
- deriving (Show)
+ deriving (Eq,Show)
 
 abuit = Abuit
 

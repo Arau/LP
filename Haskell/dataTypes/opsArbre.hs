@@ -22,6 +22,8 @@ highTree :: Arbre a -> Int
 highTree Abuit = 0
 highTree tree  = 1 + max (highTree $ fe tree) (highTree $ fd tree)
 
+
+-- This func is not necessary since "Arbre" deriving from Eq
 cmpTree :: Eq a => Arbre a -> Arbre a -> Bool
 cmpTree Abuit Abuit = True
 cmpTree _     Abuit = False
