@@ -17,6 +17,7 @@ mostrarArbre (Node x a1 a2) m = x:(mostrarArbre a1 m)++(mostrarArbre a2 m)
 prova  = (mostrarArbre (fst (obtenirArbre [3,2,5,0,4,0,0,8,1,6,0,0,7,0,0,2,0,0,10,1,0,0,5,0,6,1,2,0,0,5,0,0,3,0,9,10,0,0,0] 0)) 0)
 
 myTree = fst (obtenirArbre [3,2,5,0,4,0,0,8,1,6,0,0,7,0,0,2,0,0,10,1,0,0,5,0,6,1,2,0,0,5,0,0,3,0,9,10,0,0,0] 0)
+myt = fst (obtenirArbre [3,2,0,0,8,0,0] 0)
 
 highTree :: Arbre a -> Int
 highTree Abuit = 0
