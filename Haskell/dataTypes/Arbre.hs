@@ -23,11 +23,14 @@ instance Show a => Show (Arbre a) where
     show tree = sTree tree 0
 
 sTree :: (Show a, Eq n, Num n) => Arbre a -> n -> String
-sTree  Abuit level = (tab level) ++ "_"
-sTree (Node x chl chr) l = (tab l) ++ (show  x)
-                        ++ "\n" ++ (tab l) ++ (sTree chl i)
-                        ++ "\n" ++ (tab l) ++ (sTree chr i)
-                        where i = sum [l,1]
+sTree  Abuit lvl = (tab lvl) ++ "_"
+sTree (Node x chl chr)  lvl = t ++ (show  x)
+                                ++ form ++ (sTree chl i)
+                                ++ form ++ (sTree chr i)
+                            where 
+                                i = sum [lvl,1]
+                                t = (tab lvl)
+                                form = "\n" ++ t
 
 tab :: (Eq a, Num a) => a -> [Char]
 tab 0 = ""
