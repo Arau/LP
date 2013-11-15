@@ -47,7 +47,7 @@ sTree (Node p ne se sw nw) i str = str ++ show p
 tab :: (Eq a, Num a) => a -> [Char]
 tab 0 = ""
 tab n = "    " ++ (tab y)
-    where y = subtract 1 n
+    where y = n - 1
 
     -- Question 3 --
     -- Get a list of all elements of SpatialSet
