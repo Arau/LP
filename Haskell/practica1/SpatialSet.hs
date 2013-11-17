@@ -1,6 +1,6 @@
 module SpatialSet where
 
-import Data.List
+import Data.List (sortBy)
 
     -- Question 1 --
     -- SpatialSet defining a QuadTree
@@ -8,6 +8,8 @@ import Data.List
 data SpatialSet a  = Node (a,a) (SpatialSet a) (SpatialSet a) (SpatialSet a) (SpatialSet a)
                    | Tvoid
 
+
+build p ne se sw nw = Node p ne se sw nw
 
     -- Comparision between 2 SpatialSet
 instance (Eq a, Num a, Ord a) => Eq (SpatialSet a) where
@@ -48,6 +50,30 @@ tab :: (Eq a, Num a) => a -> [Char]
 tab 0 = ""
 tab n = "    " ++ (tab y)
     where y = n - 1
+
+
+    -- Question 2 --
+    -- Insert point in SpatialSet
+insert :: (Ord a) => SpatialSet a -> (a, a) -> SpatialSet a
+insert Tvoid p = (Node p Tvoid Tvoid Tvoid Tvoid)
+insert (Node p ne se sw nw) p' =
+    if x < x' then
+        if y < y' then
+            (Node p (insert ne p') se sw nw)
+        else 
+            (Node p ne (insert se p') sw nw)
+    else
+        if y < y' then
+            (Node p ne se sw (insert nw p'))
+        else 
+            (Node p ne se (insert sw p') nw)
+    where
+        x  = (fst p)
+        x' = (fst p')
+        y  = (snd p)
+        y' = (snd p')
+
+
 
     -- Question 3 --
     -- Get a list of all elements of SpatialSet
