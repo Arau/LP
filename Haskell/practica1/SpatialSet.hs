@@ -81,7 +81,7 @@ build :: Ord a => [(a, a)] -> SpatialSet a
 build []     = Tvoid
 build (p:ps) = build_with_root root ps
     where
-        root = (Node p (Tvoid) (Tvoid) (Tvoid) (Tvoid))
+        root = plant p
 
 build_with_root :: Ord a => SpatialSet a -> [(a, a)] -> SpatialSet a
 build_with_root tree []     = tree
