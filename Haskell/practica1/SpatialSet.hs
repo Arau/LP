@@ -9,6 +9,9 @@ data SpatialSet a  = Node (a,a) (SpatialSet a) (SpatialSet a) (SpatialSet a) (Sp
                    | Tvoid
 
 
+plant :: (a, a) -> SpatialSet a
+plant p = (Node p Tvoid Tvoid Tvoid Tvoid)
+
     -- Comparision between 2 SpatialSet
 instance (Eq a, Num a, Ord a) => Eq (SpatialSet a) where
     qTree1 == qTree2    = cmp_spatial_set qTree1 qTree2
@@ -103,3 +106,15 @@ contains Tvoid p = False
 contains (Node p ne se sw nw) p'
     | p == p'   = True
     | otherwise = (contains ne p') || (contains se p') || (contains sw p') || (contains nw p')
+
+
+    -- Question 6 --
+    -- Search nearest point in SpatialSet from given point
+nearest Tvoid p = p -- To implement
+
+
+    -- Question 7 --
+    -- Apply function for each element
+qmap f Tvoid = Tvoid
+qmap f (Node p Tvoid Tvoid Tvoid Tvoid) = plant (f p)
+qmap f (Node p ne se sw nw) = (Node (f p) (qmap f ne) (qmap f se) (qmap f sw) (qmap f nw))
