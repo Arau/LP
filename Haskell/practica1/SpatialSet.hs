@@ -89,3 +89,17 @@ build_with_root tree (p:ps) = build_with_root (insert tree p) ps
 get_all :: (Num a) => SpatialSet a -> [(a,a)]
 get_all Tvoid   = []
 get_all (Node p ne se sw nw) = [p] ++ ( concat $ map (get_all) [ne,se,sw,nw] )
+
+
+    -- Question 4 --
+    -- Remove an element from SpatialSet
+remove Tvoid p = Tvoid
+remove (Node p ne se sw nw) p' = Tvoid -- To implement
+
+
+    -- Question 5 --
+    -- Search and element
+contains Tvoid p = False
+contains (Node p ne se sw nw) p'
+    | p == p'   = True
+    | otherwise = (contains ne p') || (contains se p') || (contains sw p') || (contains nw p')
