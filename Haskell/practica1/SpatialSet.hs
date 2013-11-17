@@ -115,6 +115,7 @@ nearest Tvoid p = p -- To implement
 
     -- Question 7 --
     -- Apply function for each element
+qmap :: ((a, a) -> (b, b)) -> SpatialSet a -> SpatialSet b
 qmap f Tvoid = Tvoid
 qmap f (Node p Tvoid Tvoid Tvoid Tvoid) = plant (f p)
 qmap f (Node p ne se sw nw) = (Node (f p) (qmap f ne) (qmap f se) (qmap f sw) (qmap f nw))
