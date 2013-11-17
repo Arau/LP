@@ -102,8 +102,28 @@ remove (Node p ne se sw nw) p' = Tvoid -- To implement
 
     -- Question 5 --
     -- Search and element
+contains :: Ord a => SpatialSet a -> (a, a) -> Bool
 contains Tvoid p = False
-contains (Node p ne se sw nw) p'
+contains (Node p@(x,y) ne se sw nw) p'@(x',y') =
+    if p == p' then True
+    else if x < x' then
+        if y < y' then
+            contains ne p'
+        else 
+            contains se p'
+    else
+        if y < y' then
+            contains nw p'
+        else 
+            contains sw p'
+
+
+    -- Search element however the QuadTree doesn't satisfy it properties
+    -- it could be possible after qmap
+    -- This version is less eficient than 'contains'
+contains_no_structured :: Ord a => SpatialSet a -> (a, a) -> Bool
+contains_no_structured Tvoid p = False
+contains_no_structured (Node p ne se sw nw) p'
     | p == p'   = True
     | otherwise = (contains ne p') || (contains se p') || (contains sw p') || (contains nw p')
 
