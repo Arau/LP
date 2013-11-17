@@ -139,3 +139,8 @@ qmap :: ((a, a) -> (b, b)) -> SpatialSet a -> SpatialSet b
 qmap f Tvoid = Tvoid
 qmap f (Node p Tvoid Tvoid Tvoid Tvoid) = plant (f p)
 qmap f (Node p ne se sw nw) = (Node (f p) (qmap f ne) (qmap f se) (qmap f sw) (qmap f nw))
+
+
+    -- 7.2 applay translation for SpatialSet
+translation :: Num a => a -> a -> SpatialSet a -> SpatialSet a
+translation x y tree = qmap ( \(i,j) -> (x+i, y+j) ) tree
