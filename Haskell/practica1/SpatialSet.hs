@@ -9,8 +9,6 @@ data SpatialSet a  = Node (a,a) (SpatialSet a) (SpatialSet a) (SpatialSet a) (Sp
                    | Tvoid
 
 
-build p ne se sw nw = Node p ne se sw nw
-
     -- Comparision between 2 SpatialSet
 instance (Eq a, Num a, Ord a) => Eq (SpatialSet a) where
     qTree1 == qTree2    = cmp_spatial_set qTree1 qTree2
@@ -74,6 +72,17 @@ insert (Node p ne se sw nw) p' =
         y' = (snd p')
 
 
+    -- 2.2 --
+    -- Build a SpatialSet for a given list
+build :: Ord a => [(a, a)] -> SpatialSet a
+build []     = Tvoid
+build (p:ps) = build_with_root root ps
+    where
+        root = (Node p (Tvoid) (Tvoid) (Tvoid) (Tvoid))
+
+build_with_root :: Ord a => SpatialSet a -> [(a, a)] -> SpatialSet a
+build_with_root tree []     = tree
+build_with_root tree (p:ps) = build_with_root (insert tree p) ps
 
     -- Question 3 --
     -- Get a list of all elements of SpatialSet
