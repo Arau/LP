@@ -153,5 +153,14 @@ scale s tree = qmap ( \(i,j) -> (i*s, j*s) ) tree
 
     -- Question 8 --
     -- Accumulate all values with tail recursion (left side)
+qfoldl :: (a -> (b, b) -> a) -> a -> SpatialSet b -> a
 qfoldl f value  Tvoid = value
 qfoldl f value (Node p ne se sw nw) = qfoldl f (qfoldl f (qfoldl f (qfoldl f (f value p) ne) se) sw) nw
+
+
+    -- 8.2 --
+    -- Get size of tree (number of nodes)
+size :: Num n => SpatialSet a -> n
+size Tvoid = 0
+size tree  = qfoldl ( \x (a,b) -> x+1 ) 0 tree
+
