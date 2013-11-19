@@ -149,3 +149,9 @@ translation x y tree = qmap ( \(i,j) -> (x+i, y+j) ) tree
     -- 7.3 apply scale for SpatialSet
 scale :: Num a => a -> SpatialSet a -> SpatialSet a
 scale s tree = qmap ( \(i,j) -> (i*s, j*s) ) tree
+
+
+    -- Question 8 --
+    -- Accumulate all values with tail recursion (left side)
+qfoldl f value  Tvoid = value
+qfoldl f value (Node p ne se sw nw) = qfoldl f (qfoldl f (qfoldl f (qfoldl f (f value p) ne) se) sw) nw
