@@ -96,8 +96,21 @@ get_all (Node p ne se sw nw) = [p] ++ ( concat $ map (get_all) [ne,se,sw,nw] )
 
     -- Question 4 --
     -- Remove an element from SpatialSet
-remove Tvoid p = Tvoid
-remove (Node p ne se sw nw) p' = Tvoid -- To implement
+remove :: (Num a, Ord a) => SpatialSet a -> (a,a) -> SpatialSet a
+remove Tvoid _ = Tvoid
+remove (Node p@(x,y) ne se sw nw) p'@(x',y') = 
+    if p == p' then
+        build $ concat [(get_all ne), (get_all se), (get_all sw), (get_all nw)]
+    else if x < x' then
+        if y < y' then
+            (Node p (remove ne p') se sw nw)
+        else 
+            (Node p ne (remove se p') sw nw)
+    else
+        if y < y' then
+            (Node p ne se sw (remove nw p'))
+        else
+            (Node p ne se (remove sw p') nw)
 
 
     -- Question 5 --
