@@ -16,7 +16,7 @@ plant p = (Node p Tvoid Tvoid Tvoid Tvoid)
 instance (Eq a, Num a, Ord a) => Eq (SpatialSet a) where
     qTree1 == qTree2    = cmp_spatial_set qTree1 qTree2
 
-cmp_spatial_set :: (Eq a, Num a, Ord a) => SpatialSet a -> SpatialSet a -> Bool
+cmp_spatial_set :: Ord a => SpatialSet a -> SpatialSet a -> Bool
 cmp_spatial_set (Node _ _ _ _ _)  Tvoid           = False
 cmp_spatial_set Tvoid            (Node _ _ _ _ _) = False
 cmp_spatial_set Tvoid             Tvoid           = True
@@ -89,14 +89,14 @@ build_with_root tree (p:ps) = build_with_root (insert tree p) ps
 
     -- Question 3 --
     -- Get a list of all elements of SpatialSet
-get_all :: (Num a) => SpatialSet a -> [(a,a)]
+get_all :: SpatialSet a -> [(a,a)]
 get_all Tvoid   = []
 get_all (Node p ne se sw nw) = [p] ++ ( concat $ map (get_all) [ne,se,sw,nw] )
 
 
     -- Question 4 --
     -- Remove an element from SpatialSet
-remove :: (Num a, Ord a) => SpatialSet a -> (a,a) -> SpatialSet a
+remove :: Ord a => SpatialSet a -> (a,a) -> SpatialSet a
 remove Tvoid _ = Tvoid
 remove (Node p@(x,y) ne se sw nw) p'@(x',y') = 
     if p == p' then
