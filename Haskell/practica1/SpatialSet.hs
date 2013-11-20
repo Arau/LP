@@ -31,7 +31,7 @@ cmp_spatial_set t1@(Node p1 ne1 se1 sw1 nw1) t2@(Node p2 ne2 se2 sw2 nw2)
 
     -- Show SpatialSet
 instance (Show a, Eq a) =>  Show (SpatialSet a) where
-    show tree = sTree tree 0 ""
+    show tree = sTree tree (-1) ""
 
 sTree :: (Show a, Eq a, Eq n, Num n) => SpatialSet a -> n -> String -> String
 sTree Tvoid _ _ = ""
