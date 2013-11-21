@@ -44,8 +44,8 @@ sTree (Node p ne se sw nw) i str = str ++ show p
                                     inc  = i + 1
                                     ne_out = "\n" ++ (tab inc) ++ "<NE> "
                                     se_out = "\n" ++ (tab inc) ++ "<SE> "
-                                    sw_out = "\n" ++ (tab inc) ++ "<SW> "
-                                    nw_out = "\n" ++ (tab inc) ++ "<NW> "
+                                    sw_out = "\n" ++ (tab inc) ++ "<SO> "
+                                    nw_out = "\n" ++ (tab inc) ++ "<NO> "
 
 tab :: (Eq a, Num a) => a -> [Char]
 tab 0 = ""
@@ -125,29 +125,44 @@ contains (Node p@(x,y) ne se sw nw) p'@(x',y') =
         else 
             contains se p'
     else
-        if y < y' then
-            contains nw p'
-        else 
-            contains sw p'
-
-
-    -- Search element however the QuadTree doesn't satisfy it properties
-    -- it could be possible after qmap
-    -- This version is less eficient than 'contains'
-contains_no_structured :: Ord a => SpatialSet a -> (a, a) -> Bool
-contains_no_structured Tvoid p = False
-contains_no_structured (Node p ne se sw nw) p'
-    | p == p'   = True
-    | otherwise = (contains ne p') || (contains se p') || (contains sw p') || (contains nw p')
+    if y < y' then
+        contains nw p'
+    else 
+        contains sw p'
 
 
     -- Question 6 --
     -- Search nearest point in SpatialSet from given point
-nearest Tvoid p = p -- To implement
+nearest :: (Num a, Ord a) => SpatialSet a -> (a, a) -> (a, a)
+nearest tree@(Node root _ _ _ _) p' = near_p tree p' root
+
+near_p :: (Num a, Ord a) => SpatialSet a -> (a, a) -> (a, a) -> (a, a)
+near_p Tvoid _ best_point = best_point;
+near_p (Node p ne se sw nw) p' best_point
+    | (exps p p') < (exps p' best_point) = min_dist p' (head l_point) l_point
+    |  otherwise                         = min_dist p' (head l_bests) l_bests
+    where
+        l_point = [ near_p son p' p          | son <- [ne,se,sw,nw] ]
+        l_bests = [ near_p son p' best_point | son <- [ne,se,sw,nw] ]
 
 
-    -- Question 7 --
-    -- Apply function for each element
+exps :: Num a => (a, a) -> (a, a) -> a
+exps p@(x,y) p'@(x',y') = (x'- x)*(x'- x) + (y'- y)*(y'- y)
+
+
+    -- Nearest point of list of points
+min_dist :: (Num a, Ord a) => (a, a) -> (a, a) -> [(a, a)] -> (a, a)
+min_dist p best_point [] = best_point
+min_dist p best_point (x:xs)
+    | (exps p x) < (exps p best_point)  = min_dist p x xs
+    |  otherwise                         = min_dist p best_point xs
+
+
+distance p@(x,y) p'@(x',y') = sqrt ((x'- x)**2 + (y'- y)**2)
+
+
+-- Question 7 --
+-- Apply function for each element
 qmap :: ((a, a) -> (b, b)) -> SpatialSet a -> SpatialSet b
 qmap f Tvoid = Tvoid
 qmap f (Node p Tvoid Tvoid Tvoid Tvoid) = plant (f p)
