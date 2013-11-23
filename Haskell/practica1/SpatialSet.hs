@@ -192,3 +192,40 @@ size :: Num n => SpatialSet a -> n
 size Tvoid = 0
 size tree  = qfoldl ( \x (a,b) -> x+1 ) 0 tree
 
+
+    -- b.3 --
+    -- Bounding Box
+bound_box :: Ord a => SpatialSet a -> ((a,a), (a,a))
+bound_box tree@(Node p _ _ _ _) = limits (get_all tree) p p
+
+
+    -- Get limits from list of points
+    -- Result of 2 points:
+    --      nw -> Left-top
+    --      se -> Right-down
+limits :: (Ord a) => [(a, a)] -> (a, a) -> (a, a) -> ((a, a), (a, a))
+limits [] nw se = (nw, se)
+limits (p:ps) nw@(xn,yn) se@(xs,ys) =
+    if x < xn then
+        if y < ys then
+            limits ps (x, yn) (xs, y)
+        else if y > yn then
+            limits ps (x, y)  se
+        else
+            limits ps (x, yn) se
+    else if x > xs then
+        if y < ys then
+            limits ps nw (x, y)
+        else if y > yn then
+            limits ps (xn, y) (x, ys)
+        else
+            limits ps nw (x, ys)
+    else if y > yn then
+            limits ps (xn, y) se
+    else if y < ys then
+            limits ps nw (xs, y)
+    else
+        limits ps nw se
+    where
+        x = fst p
+        y = snd p
