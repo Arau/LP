@@ -193,8 +193,35 @@ size Tvoid = 0
 size tree  = qfoldl ( \x (a,b) -> x+1 ) 0 tree
 
 
-    -- b.3 --
+    -- 8.3 --
     -- Bounding Box
+    -- Implementation with qfold as question require,
+    -- but less eficient (go over tree 4 times) than bound_box function.
+box :: Ord a => SpatialSet a -> ((a,a), (a,a))
+box tree@(Node p _ _ _ _) = ((left, top), (right, down))
+    where
+        left    = qfoldl( \l (x,y) ->
+                            if  x < l then x
+                            else l
+                        ) (fst p) tree
+        right   = qfoldl( \r (x,y) ->
+                            if x > r then x
+                            else r
+                        ) (fst p) tree
+        top     = qfoldl( \t (x,y) ->
+                            if y > t then y
+                            else t
+                        ) (snd p) tree
+        down    = qfoldl( \d (x,y) -> 
+                            if y < d then y
+                            else d
+                        ) (snd p) tree
+
+
+
+
+    -- Bounding box implementation with only one travel
+    -- More complex than box function
 bound_box :: Ord a => SpatialSet a -> ((a,a), (a,a))
 bound_box tree@(Node p _ _ _ _) = limits (get_all tree) p p
 
@@ -229,3 +256,4 @@ limits (p:ps) nw@(xn,yn) se@(xs,ys) =
     where
         x = fst p
         y = snd p
+
