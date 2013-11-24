@@ -58,7 +58,9 @@ tab n = "    " ++ (tab y)
 insert :: (Ord a) => SpatialSet a -> (a, a) -> SpatialSet a
 insert Tvoid p = (Node p Tvoid Tvoid Tvoid Tvoid)
 insert (Node p ne se sw nw) p' =
-    if x < x' then
+    if p == p' then
+        (Node p ne se sw nw)
+    else if x < x' then
         if y < y' then
             (Node p (insert ne p') se sw nw)
         else 
