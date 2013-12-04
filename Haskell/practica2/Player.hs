@@ -28,6 +28,7 @@ performPlayerMovement randomGenerator turn state movement = performComputerMovem
 performComputerMovement :: StdGen -> Int -> State -> IO()
 performComputerMovement randomGenerator turn state = do
     putStrLn ("Computer Movement: " ++ (show computerMovement))
+    putStrLn (show state)
     if ((winner state == 1))         then putStrLn "Player wins."
     else if ((winner newState) == 2) then putStrLn "Computer wins."
     else if (turn < 3) then
@@ -50,7 +51,7 @@ secondPhase randomGenerator turn state = do
     if (valid (read playerMovement) Empty Red state) then
         performRemoveOneToken randomGenerator turn state (read playerMovement)
     else
-        do 
+        do
             putStrLn "Invalid movement"
             secondPhase randomGenerator turn state
 
